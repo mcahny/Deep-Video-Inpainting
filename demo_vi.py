@@ -58,7 +58,7 @@ DTloader = data.DataLoader(DTset, batch_size=1, shuffle=False, num_workers=1)
 opt.long_flow = True # Always True
 opt.half_size = True if opt.crop_size == 512 else False
 opt.search_range = 4 # fixed as 4
-opt.pretrain_path = 'results/vinet_agg_rec/vinet_agg_rec.pth'
+opt.pretrain_path = 'results/vinet_agg_rec/save_agg_rec.pth'
 opt.model = 'vinet_final'
 opt.result_path = 'results/vinet_agg_rec'
 opt.batch_norm = False
