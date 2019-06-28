@@ -1,13 +1,13 @@
 import torch
 from torch import nn
-from models_git import cvpr_model_git
+from models import vinet
 import pdb
 
 def generate_model(opt):
 
     try: 
         assert(opt.model == 'vinet_final')
-        model = cvpr_model_git.VINet_Hexa_3_M3S(opt=opt)
+        model = vinet.VINet_Hexa_3_M3S(opt=opt)
     except:
         print('Model name should be: vinet_final')
 
