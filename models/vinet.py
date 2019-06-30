@@ -3,11 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 import math
-#from functools import partial
-#from .non_local import NONLocalBlock2D, NONLocalBlock3D, NonLocalBlockAgg
-#from .contextual_attention import ContextualAttentionModule
-#from .gated_stconv import GatedSpatioTemporalConv
-#from torch.nn.modules.utils import _triple
 from .flow_modules import (WarpingLayer, LongFlowNetCorr, MaskEstimator_ )
 from .gated_conv import GatedConvolution, GatedUpConvolution
 from .utils import *
