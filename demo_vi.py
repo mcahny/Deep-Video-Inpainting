@@ -20,14 +20,15 @@ import pdb
 class Object():
     pass
 opt = Object()
-opt.crop_size = 256
+opt.crop_size = 512
+opt.double_size = True if opt.crop_size == 512 else False
 ########## DAVIS
 DAVIS_ROOT = './DAVIS_demo'
 DTset = DAVIS(DAVIS_ROOT, imset='2016/demo_davis.txt', size=(opt.crop_size, opt.crop_size))
 DTloader = data.DataLoader(DTset, batch_size=1, shuffle=False, num_workers=1)
 
 opt.search_range = 4 # fixed as 4: search range for flow subnetworks
-opt.pretrain_path = 'results/vinet_agg_rec/save_agg_rec.pth'
+opt.pretrain_path = 'results/vinet_agg_rec/save_agg_rec_512.pth'
 opt.result_path = 'results/vinet_agg_rec'
 
 opt.model = 'vinet_final'
@@ -75,8 +76,8 @@ print('Number of model parameters: {}'.format( sum([p.data.nelement() for p in m
 
 model.eval()
 ts = opt.t_stride
-folder_name = 'davis_256'
-pre = 20
+folder_name = 'davis_%d'%(int(opt.crop_size))
+pre = 15
 
 with torch.no_grad():
     for seq, (inputs, masks, info) in enumerate(DTloader):
@@ -151,12 +152,15 @@ with torch.no_grad():
             masks_ = torch.stack(masks_).permute(1,0,2,3).unsqueeze(0)
 
             start = time.time()
-            prev_mask = masks_[:,:,2] if t==0 else to_var(torch.zeros(masks_[:,:,2].size()))
+            if not opt.double_size:
+                prev_mask_ = to_var(torch.zeros(masks_[:,:,2].size())) # rec given when 256
+            prev_mask = masks_[:,:,2] if t==0 else prev_mask_
             prev_ones = to_var(torch.ones(prev_mask.size()))
             prev_feed = torch.cat([masked_inputs_[:,:,2,:,:],prev_ones, prev_ones*prev_mask], dim=1) if t==0 else torch.cat([outputs.detach().squeeze(2), prev_ones, prev_ones*prev_mask], dim=1)
 
-            #outputs, flows, lstm_state, occ_masks, flow_256 = model(masked_inputs_, masks_, lstm_state, prev_feed, t)
             outputs, _, _, _, _ = model(masked_inputs_, masks_, lstm_state, prev_feed, t)
+            if opt.double_size:
+                prev_mask_ = masks_[:,:,2]*0.5 # rec given whtn 512
 
             lstm_state = None
             end = time.time() - start
