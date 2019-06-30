@@ -7,7 +7,7 @@ def generate_model(opt):
 
     try: 
         assert(opt.model == 'vinet_final')
-        model = vinet.VINet_Hexa_3_M3S(opt=opt)
+        model = vinet.VINet_final(opt=opt)
     except:
         print('Model name should be: vinet_final')
 

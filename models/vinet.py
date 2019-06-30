@@ -121,9 +121,9 @@ class VI_Aggregator(nn.Module):
         return self.stAgg(x)
 
 
-class VINet_Hexa_3_M3S(nn.Module):
+class VINet_final(nn.Module):
     def __init__(self, opt):
-        super(VINet_Hexa_3_M3S, self).__init__()
+        super(VINet_final, self).__init__()
         self.opt = opt
         self.encoder1 = VI_2D_Encoder_3(self.opt)
         self.encoder2 = VI_2D_Encoder_3(self.opt)
@@ -273,20 +273,4 @@ class VINet_Hexa_3_M3S(nn.Module):
                     output = (output, output_)
 
         return output, torch.stack([flow2_128,flow3_128,flow4_128,flow5_128, flow6_128],2), state, torch.stack([occ_mask, 1-occ_mask, occ_mask_64, 1-occ_mask_64, occ_mask_128, 1-occ_mask_128], 2), flow6_256
-
-
-
-        # if not self.opt.no_train:
-        #     if self.opt.prev_warp and prev_state is not None:
-        #         if self.opt.loss_on_raw:
-        #             output = (output, output_)
-        #         return output, torch.stack([flow2_128,flow3_128,flow4_128,flow5_128, flow6_128],2), state, None, torch.stack([occ_mask, 1-occ_mask, occ_mask_64, 1-occ_mask_64, occ_mask_128, occlusion_mask_256], 2), flow6_256
-        #     else:
-        #         return output, torch.stack([flow2_128,flow3_128,flow4_128,flow5_128, flow6_128],2), state, None, torch.stack([occ_mask, 1-occ_mask, occ_mask_64, 1-occ_mask_64, occ_mask_128, 1-occ_mask_128], 2)
-
-        # elif self.opt.test:
-        #     if self.opt.prev_warp and idx !=0:         
-        #         return output, torch.stack([flow2_128,flow3_128,flow4_128,flow5_128, flow6_128],2), state, None, torch.stack([occ_mask, 1-occ_mask, occ_mask_64, 1-occ_mask_64, occ_mask_128, occlusion_mask_256], 2), flow6_256
-        #     else:
-        #         return output, torch.stack([flow2_128,flow3_128,flow4_128,flow5_128, flow6_128],2), state, None, torch.stack([occ_mask, 1-occ_mask, occ_mask_64, 1-occ_mask_64, occ_mask_128, 1-occ_mask_128], 2)
 
