@@ -76,9 +76,16 @@ print('Number of model parameters: {}'.format( sum([p.data.nelement() for p in m
 model.eval()
 ts = opt.t_stride
 folder_name = 'davis_256'
+pre = 20
 
 with torch.no_grad():
     for seq, (inputs, masks, info) in enumerate(DTloader):
+
+        idx = torch.LongTensor([i for i in range(pre-1,-1,-1)])
+        pre_inputs = inputs[:,:,:pre].index_select(2,idx)
+        pre_masks = masks[:,:,:pre].index_select(2,idx)
+        inputs = torch.cat((pre_inputs, inputs),2)
+        masks = torch.cat((pre_masks, masks),2)
 
         bs = inputs.size(0)
         num_frames = inputs.size(2)
@@ -157,12 +164,12 @@ with torch.no_grad():
                 lstm_state = repackage_hidden(lstm_state)
 
             total_time += end
-            print('{}th frame of {} is being processed'.format(t, seq_name))
-
-            out_frame = to_img(outputs)  
-            if opt.save_image:              
-                cv2.imwrite(os.path.join(save_path,'%05d.png'%(t)), out_frame)
-            out_frames.append(out_frame[:,:,::-1])
+            if t>pre:
+                print('{}th frame of {} is being processed'.format(t-pre, seq_name))
+                out_frame = to_img(outputs)  
+                if opt.save_image:            
+                    cv2.imwrite(os.path.join(save_path,'%05d.png'%(t)), out_frame)
+                out_frames.append(out_frame[:,:,::-1])
 
         if opt.save_video:
             final_clip = np.stack(out_frames)
