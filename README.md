@@ -14,3 +14,14 @@ Google drive: [[weight](https://drive.google.com/file/d/1UCDZVJbymiHUcD2GfLq9-NU
 python demo_vi.py
 ```
 
+## Citation
+If you find the codes useful in your research, please cite:  
+```bibtex
+@inproceedings{kim2019deep,
+  title={Deep Video Inpainting},
+  author={Kim, Dahun and Woo, Sanghyun and Lee, Joon-Young and So Kweon, In},
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pages={5792--5801},
+  year={2019}
+```
+
