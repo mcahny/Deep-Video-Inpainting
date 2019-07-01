@@ -121,9 +121,9 @@ class VI_Aggregator(nn.Module):
         return self.stAgg(x)
 
 
-class VINet_Hexa_3_M3S(nn.Module):
+class VINet_final(nn.Module):
     def __init__(self, opt):
-        super(VINet_Hexa_3_M3S, self).__init__()
+        super(VINet_final, self).__init__()
         self.opt = opt
         self.encoder1 = VI_2D_Encoder_3(self.opt)
         self.encoder2 = VI_2D_Encoder_3(self.opt)
