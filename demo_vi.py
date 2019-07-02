@@ -39,7 +39,7 @@ opt.test = True
 opt.t_stride = 3
 opt.loss_on_raw = False
 opt.prev_warp = True
-opt.save_image = False
+opt.save_image = True
 opt.save_video = True
 
 
@@ -172,7 +172,7 @@ with torch.no_grad():
                 print('{}th frame of {} is being processed'.format(t-pre, seq_name))
                 out_frame = to_img(outputs)  
                 if opt.save_image:            
-                    cv2.imwrite(os.path.join(save_path,'%05d.png'%(t)), out_frame)
+                    cv2.imwrite(os.path.join(save_path,'%05d.png'%(t-pre)), out_frame)
                 out_frames.append(out_frame[:,:,::-1])
 
         if opt.save_video:
