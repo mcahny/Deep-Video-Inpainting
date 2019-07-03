@@ -12,7 +12,6 @@ from model import generate_model
 from utils import *
 import time
 
-import pims
 import subprocess as sp
 import pickle
 import pdb
@@ -40,16 +39,18 @@ opt.t_stride = 3
 opt.loss_on_raw = False
 opt.prev_warp = True
 opt.save_image = True
-opt.save_video = True
+opt.save_video = False
+if opt.save_video:
+    import pims
 
 
-def createVideoClip(clip, folder, name, size=[256,256]):
+def createVideoClip(clip, folder, name, size=[512,512]):
 
     vf = clip.shape[0]
     command = [ 'ffmpeg',
     '-y',  # overwrite output file if it exists
     '-f', 'rawvideo',
-    '-s', '%dx%d'%(size[1],size[0]), #'256x256', # size of one frame
+    '-s', '%dx%d'%(size[1],size[0]), #'512x512', # size of one frame
     '-pix_fmt', 'rgb24',
     '-r', '15', # frames per second
     '-an',  # Tells FFMPEG not to expect any audio
