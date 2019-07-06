@@ -34,10 +34,8 @@ class CorrelationFunction(Function):
     def backward(self, grad_output):
         input1, input2 = self.saved_tensors
         
-        # assert(grad_output.is_contiguous() == True)
-        if not grad_output.is_contiguous():
-            grad_output = grad_output.contiguous()
-            
+        assert(grad_output.is_contiguous() == True)
+
         with torch.cuda.device_of(input1):
             rbot1 = input1.new()
             rbot2 = input2.new()
