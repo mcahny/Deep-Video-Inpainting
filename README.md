@@ -8,18 +8,18 @@ pytorch implementation for "Deep Video Inpainting" (CVPR 2019)
 
 
 ## Disclaimer
-This is tested under Python 3.6, PyTorch 0.4.0 (FlowNet2 dependencies can be compiled on this version).
+This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version).
 
 ## Testing
 0. Download the trained weight 'save_agg_rec_512.pth' and place it in "./results/vinet_agg_rec/"  
-Google drive: [[weight-256x256](https://drive.google.com/file/d/1UCDZVJbymiHUcD2GfLq9-NU65MW6rSY4/view?usp=sharing)] [[weight-512x512](https://drive.google.com/file/d/1KAi9oQVBaJU9ytr7dYr2WwEcO5NLiJvo/view?usp=sharing)]  
+Google drive: [[weight-512x512](https://drive.google.com/file/d/1KAi9oQVBaJU9ytr7dYr2WwEcO5NLiJvo/view?usp=sharing)] [[weight-256x256](https://drive.google.com/file/d/1UCDZVJbymiHUcD2GfLq9-NU65MW6rSY4/view?usp=sharing)]   
 
-1. Compile FlowNet2 dependencies (correlation, resample, and channel norm packages).
+1. Compile Resample2d dependency.  
 ```python
 bash ./install.sh
 ```
 
-2. Run the demo  
+2. Run the demo (the results are saved in "./results/vinet_agg_rec/davis_512/").  
 ```python
 python demo_vi.py
 ```

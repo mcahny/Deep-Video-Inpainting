@@ -1,0 +1,5 @@
+# .gitignore
+*.pyc
+__pycache__/
+*/davis_512
+save_agg_rec_512.pth
