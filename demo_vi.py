@@ -78,7 +78,7 @@ print('Number of model parameters: {}'.format( sum([p.data.nelement() for p in m
 model.eval()
 ts = opt.t_stride
 folder_name = 'davis_%d'%(int(opt.crop_size))
-pre = 15
+pre = 30
 
 with torch.no_grad():
     for seq, (inputs, masks, info) in enumerate(DTloader):
