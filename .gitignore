@@ -1,5 +1,5 @@
 # .gitignore
 *.pyc
 __pycache__/
-*/davis_512
+results/vinet_agg_rec/davis_512/
 save_agg_rec_512.pth
