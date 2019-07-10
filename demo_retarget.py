@@ -39,8 +39,6 @@ for mode in ['horizontal', 'vertical']:
                     bg_half = cv2.resize(bg, (int(H*ratio),W))
                 elif mode == 'vertical':
                     bg_half = cv2.resize(bg, (H,int(W*ratio)))
-                #plt.imshow(bg_half)
-                #plt.gca().add_patch(    plt.Rectangle( (min(ws), min(hs)), max(ws)-min(ws), max(hs)-min(hs), fill=False, edgecolor='r', linewidth=3) )
 
                 fg = cv2.resize(cv2.imread(os.path.join(fg_dir, iid+'.jpg')),(H,W), cv2.INTER_CUBIC)
                 fg[:,:,0] = fg[:,:,0]*(mask>0)
