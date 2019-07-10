@@ -1,7 +1,9 @@
 # Deep_Video_Inpainting
-pytorch implementation for "Deep Video Inpainting" (CVPR 2019)  
+Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019)  
 [Dahun Kim*](https://mcahny@github.io/), [Sanghyun Woo*](https://sites.google.com/view/sanghyunwoo/), [Joon-Young Lee](https://joonyoung-cv.github.io/), and [In So Kweon](https://rcv.kaist.ac.kr). (*: equal contribution)  
-[[Paper](http://openaccess.thecvf.com/content_CVPR_2019/papers/Kim_Deep_Video_Inpainting_CVPR_2019_paper.pdf)] [[Project page](https://sites.google.com/view/deepvinet/)] [[Video results](https://youtu.be/RtThGNTvkjY)]  
+[[Paper](https://arxiv.org/abs/1905.01639)] [[Project page](https://sites.google.com/view/deepvinet/)] [[Video results](https://youtu.be/RtThGNTvkjY)]  
+
+If you are also interested in video caption removal, please check [[Paper](https://arxiv.org/abs/1905.02949)] [[Project page](https://sites.google.com/view/bvdnet/)] 
 
 <img src="./image/swing4.jpg" width="700" height="350"> 
 <img src="./image/roller4.jpg" width="700" height="350"> 
@@ -24,6 +26,13 @@ bash ./install.sh
 python demo_vi.py
 ```
 
+3. Optional: Run the video retargeting (Section 4.5)
+```python
+python demo_retarget.py
+```
+<img src="./image/bmx-trees.png" width="700" height="140"> 
+
+
 ## Citation
 If you find the codes useful in your research, please cite:  
 ```bibtex
@@ -34,4 +43,5 @@ If you find the codes useful in your research, please cite:
   pages={5792--5801},
   year={2019}
 ```
+
 
