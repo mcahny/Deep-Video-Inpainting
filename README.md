@@ -1,6 +1,6 @@
 # Deep_Video_Inpainting
 Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019)  
-[Dahun Kim*](https://mcahny@github.io/), [Sanghyun Woo*](https://sites.google.com/view/sanghyunwoo/), [Joon-Young Lee](https://joonyoung-cv.github.io/), and [In So Kweon](https://rcv.kaist.ac.kr). (*: equal contribution)  
+[Dahun Kim*](https://mcahny.github.io/), [Sanghyun Woo*](https://sites.google.com/view/sanghyunwoo/), [Joon-Young Lee](https://joonyoung-cv.github.io/), and [In So Kweon](https://rcv.kaist.ac.kr). (*: equal contribution)  
 [[Paper](https://arxiv.org/abs/1905.01639)] [[Project page](https://sites.google.com/view/deepvinet/)] [[Video results](https://youtu.be/RtThGNTvkjY)]  
 
 If you are also interested in **video caption removal**, please check [[Paper](https://arxiv.org/abs/1905.02949)] [[Project page](https://sites.google.com/view/bvdnet/)] 
