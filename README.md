@@ -55,7 +55,7 @@ If you find the codes useful in your research, please cite:
   year={2019},}
 ```
 ```bibtex
-@ARTICLE{kim2019vipami,
+@ARTICLE{kim2020vipami,
   author={Kim, Dahun and Woo, Sanghyun and Lee, Joon-Young and Kweon, In So},
   journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
   title={Recurrent Temporal Aggregation Framework for Deep Video Inpainting},
