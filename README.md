@@ -6,7 +6,7 @@ Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019)
 If you are also interested in **video caption removal**, please check [[Paper](https://arxiv.org/abs/1905.02949)] [[Project page](https://sites.google.com/view/bvdnet/)] 
 
 ## Update
-This is recently tested under Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
+This is recently tested under <b>Python=3.7, Pytorch=1.4, Cudatoolkit=10.0</b>.
 
 <img src="./image/swing4.jpg" width="700" height="350"> 
 <img src="./image/roller4.jpg" width="700" height="350"> 
