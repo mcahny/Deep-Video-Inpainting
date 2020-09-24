@@ -1,23 +1,20 @@
 from __future__ import division
 import torch
 from torch.utils import data
-
 # general libs
-import cv2
-import matplotlib.pyplot as plt
-from PIL import Image
 import numpy as np
 import math
 import time
-import tqdm
 import os
 import random
 import argparse
 import glob
 import json
-
+# image io libs
+import cv2
+from PIL import Image
 from scipy import ndimage, signal
-import pdb
+
 
 def temporal_transform(frame_indices, sample_range):
     tmp = np.random.randint(0,len(frame_indices)-sample_range)
@@ -46,6 +43,7 @@ class DAVIS(data.Dataset):
                 self.videos.append(_video)
                 self.num_frames[_video] = len(glob.glob(os.path.join(self.image_dir, _video, '*.jpg')))
                 _mask = np.array(Image.open(os.path.join(self.mask_dir, _video, '00000.png')).convert("P"))
+                # _mask = np.array(mmcv.imread(os.path.join(self.mask_dir, _video, '00000.png'), flag='grayscale'))
                 self.num_objects[_video] = np.max(_mask)
                 self.shape[_video] = np.shape(_mask)
 
@@ -73,17 +71,18 @@ class DAVIS(data.Dataset):
                             
             img_file = os.path.join(self.image_dir, video, '{:05d}.jpg'.format(f))
             image_ = cv2.resize(cv2.imread(img_file), self.size, cv2.INTER_CUBIC)
+            # image_ = mmcv.imresize(mmcv.imread(img_file), self.size, 'bicubic')
             image_ = np.float32(image_)/255.0
             images.append(torch.from_numpy(image_))
 
             try:
                 mask_file = os.path.join(self.mask_dir, video, '{:05d}.png'.format(f))
-                mask_ = np.array(Image.open(mask_file).convert('P'), np.uint8)
-                mask_ = cv2.resize(mask_,self.size, cv2.INTER_NEAREST)
             except:
                 mask_file = os.path.join(self.mask_dir, video, '00000.png')
-                mask_ = np.array(Image.open(mask_file).convert('P'), np.uint8)
-                mask_ = cv2.resize(mask_,self.size, cv2.INTER_NEAREST)
+            mask_ = np.array(Image.open(mask_file).convert('P'), np.uint8)
+            mask_ = cv2.resize(mask_,self.size, cv2.INTER_NEAREST)
+            # mask_ = np.array(mmcv.imread(mask_file, flag='grayscale'), np.uint8)
+            # mask_ = mmcv.imresize(mask_, self.size, 'nearest')
 
             if video in DAVIS_2016:
                 mask_ = (mask_ != 0)

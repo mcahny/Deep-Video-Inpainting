@@ -16,15 +16,14 @@ import torch
 import torch.nn.functional as F
 from torch.autograd import Variable
 import numpy as np
-from utils import *
 import pytorch_ssim
 from pytorch_misc import clip_grad_norm
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from networks.resample2d_package.modules.resample2d import Resample2d
+# from networks.resample2d_package.modules.resample2d import Resample2d
+from networks.resample2d_package.resample2d import Resample2d
 import networks
-import utils
 
 class Object(object):
     pass
@@ -43,6 +42,13 @@ downsampler = nn.AvgPool2d((2, 2), stride=2).cuda()
 
 def norm(t):
     return torch.sum(t*t, dim=1, keepdim=True) 
+
+def repackage_hidden(h):
+    """Wraps hidden states in new Variables, to detach them from their history."""
+    if isinstance(h, torch.Tensor):
+        return h.detach()
+    else:
+        return tuple(repackage_hidden(v) for v in h)
 
 def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, optimizer, opt):
 
@@ -78,7 +84,7 @@ def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, op
         prev_feed = torch.cat([frame_mi[0][:,:,midx,:,:],prev_ones, prev_ones*prev_mask], dim=1)
         frame_o1, _, lstm_state, _ ,occs = model(frame_mi[0], frame_m[0], lstm_state, prev_feed)
         # Turned out it still works w.o.LSTM. May work with lstm_state = None 
-        lstm_state = None if opt.no_lstm else utils.repackage_hidden(lstm_state)
+        lstm_state = None if opt.no_lstm else repackage_hidden(lstm_state)
         frame_o1 = frame_o1.squeeze(2)
         
         RECON_loss += 1*criterion_L1(frame_o1, frame_i[0]) -
@@ -108,7 +114,7 @@ def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, op
                 frame_o2 = frame_o2[0]
             frame_o2 = frame_o2.squeeze(2)
             ### detach from graph and avoid memory accumulation
-            lstm_state = None if opt.no_lstm else utils.repackage_hidden(lstm_state)
+            lstm_state = None if opt.no_lstm else repackage_hidden(lstm_state)
 
             frame_o.append(frame_o2)
             RECON_loss += criterion_L1(frame_o2, frame_i2) - 

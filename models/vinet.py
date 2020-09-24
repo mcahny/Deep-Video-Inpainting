@@ -7,7 +7,6 @@ from .flow_modules import (WarpingLayer, LongFlowNetCorr, MaskEstimator_ )
 from .gated_conv import GatedConvolution, GatedUpConvolution
 from .utils import *
 from .ConvLSTM import ConvLSTM
-import pdb
 
 class VI_2D_Encoder_3(nn.Module):
     def __init__(self, opt):
@@ -139,7 +138,8 @@ class VINet_final(nn.Module):
         if self.opt.prev_warp:
             self.flownet_256 = LongFlowNetCorr(self.opt, 32+2)
             self.masknet_256 = MaskEstimator_(self.opt, 32)
-            from lib.resample2d_package.modules.resample2d import Resample2d
+            # from lib.resample2d_package.modules.resample2d import Resample2d
+            from lib.resample2d_package.resample2d import Resample2d
             self.warping_256 = Resample2d().cuda()
 
         self.masknet = MaskEstimator_(self.opt, 128)

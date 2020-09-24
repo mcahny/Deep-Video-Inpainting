@@ -4,7 +4,6 @@ from torch.autograd import Variable
 from torch.backends import cudnn
 from random import *
 import numpy as np
-import matplotlib.pyplot as plt
 import torch.nn.functional as F
 
 def down_sample(x, size=None, scale_factor=None, mode='nearest'):
@@ -43,47 +42,47 @@ def l2_norm(x):
     return torch.sqrt(x)
 
 
-def show_image(real, masked, stage_1, stage_2, fake, offset_flow):
-    batch_size = real.shape[0]
+# def show_image(real, masked, stage_1, stage_2, fake, offset_flow):
+#     batch_size = real.shape[0]
 
-    (real, masked, stage_1, stage_2, fake, offset_flow) = (
-                                var_to_numpy(real), 
-                                var_to_numpy(masked), 
-                                var_to_numpy(stage_1),
-                                var_to_numpy(stage_2),
-                                var_to_numpy(fake),
-                                var_to_numpy(offset_flow)
-                              )
-    # offset_flow = (offset_flow*2).astype(int) -1
-    for x in range(batch_size):
-        if x > 5 :
-            break
-        fig, axs = plt.subplots(ncols=5, figsize=(15,3))
-        axs[0].set_title('real image')
-        axs[0].imshow(real[x])
-        axs[0].axis('off')
+#     (real, masked, stage_1, stage_2, fake, offset_flow) = (
+#                                 var_to_numpy(real), 
+#                                 var_to_numpy(masked), 
+#                                 var_to_numpy(stage_1),
+#                                 var_to_numpy(stage_2),
+#                                 var_to_numpy(fake),
+#                                 var_to_numpy(offset_flow)
+#                               )
+#     # offset_flow = (offset_flow*2).astype(int) -1
+#     for x in range(batch_size):
+#         if x > 5 :
+#             break
+#         fig, axs = plt.subplots(ncols=5, figsize=(15,3))
+#         axs[0].set_title('real image')
+#         axs[0].imshow(real[x])
+#         axs[0].axis('off')
 
-        axs[1].set_title('masked image')
-        axs[1].imshow(masked[x])
-        axs[1].axis('off')
+#         axs[1].set_title('masked image')
+#         axs[1].imshow(masked[x])
+#         axs[1].axis('off')
 
-        axs[2].set_title('stage_1 image')
-        axs[2].imshow(stage_1[x])
-        axs[2].axis('off')
+#         axs[2].set_title('stage_1 image')
+#         axs[2].imshow(stage_1[x])
+#         axs[2].axis('off')
 
-        axs[3].set_title('stage_2 image')
-        axs[3].imshow(stage_2[x])
-        axs[3].axis('off')
+#         axs[3].set_title('stage_2 image')
+#         axs[3].imshow(stage_2[x])
+#         axs[3].axis('off')
 
-        axs[4].set_title('fake_image')
-        axs[4].imshow(fake[x])
-        axs[4].axis('off')
+#         axs[4].set_title('fake_image')
+#         axs[4].imshow(fake[x])
+#         axs[4].axis('off')
 
-        # axs[5].set_title('C_Attn')
-        # axs[5].imshow(offset_flow[x])
-        # axs[5].axis('off')
+#         # axs[5].set_title('C_Attn')
+#         # axs[5].imshow(offset_flow[x])
+#         # axs[5].axis('off')
 
-        plt.show()
+#         plt.show()
 
 
 def var_to_numpy(obj, for_vis=True):

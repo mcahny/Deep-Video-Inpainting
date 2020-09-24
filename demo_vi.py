@@ -2,19 +2,16 @@ import os, sys
 import os.path
 import torch
 import numpy as np
-import cv2
-from scipy.misc import imsave
+import cv2  
 
 from torch.utils import data
+from torch.autograd import Variable
 from davis import DAVIS
-
 from model import generate_model
-from utils import *
 import time
 
 import subprocess as sp
 import pickle
-import pdb
 
 class Object():
     pass
@@ -44,6 +41,7 @@ if opt.save_video:
     import pims
 
 
+
 def createVideoClip(clip, folder, name, size=[512,512]):
 
     vf = clip.shape[0]
@@ -71,6 +69,11 @@ def to_img(x):
     tmp = (x[0,:,0,:,:].cpu().data.numpy().transpose((1,2,0))+1)/2
     tmp = np.clip(tmp,0,1)*255.
     return tmp.astype(np.uint8)
+
+def to_var(x, volatile=False):
+    if torch.cuda.is_available():
+        x = x.cuda()
+    return Variable(x, volatile=volatile)
 
 model, _ = generate_model(opt)
 print('Number of model parameters: {}'.format( sum([p.data.nelement() for p in model.parameters()])))
