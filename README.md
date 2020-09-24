@@ -6,7 +6,8 @@ Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019)
 If you are also interested in **video caption removal**, please check [[Paper](https://arxiv.org/abs/1905.02949)] [[Project page](https://sites.google.com/view/bvdnet/)] 
 
 ## Update
-This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version).
+This is recently tested under Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
+<s>This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version).</s>
 
 <img src="./image/swing4.jpg" width="700" height="350"> 
 <img src="./image/roller4.jpg" width="700" height="350"> 
@@ -18,17 +19,24 @@ This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on 
 0. Download the trained weight 'save_agg_rec_512.pth' and place it in "./results/vinet_agg_rec/"  
 Google drive: [[weight-512x512](https://drive.google.com/file/d/1KAi9oQVBaJU9ytr7dYr2WwEcO5NLiJvo/view?usp=sharing)] [[weight-256x256](https://drive.google.com/file/d/1UCDZVJbymiHUcD2GfLq9-NU65MW6rSY4/view?usp=sharing)]   
 
-1. Compile Resample2d, Correlation dependencies.  
+1. Create conda env and install pytorch=1.4.
+```
+conda create -n vinet python=3.7 -y
+conda activate vinet
+conda install pytorch=1.4 torchvision cudatoolkit=10.0 -c pytorch -y
+```
+
+2. Compile Resample2d, Correlation dependencies.  
 ```python
 bash ./install.sh
 ```
 
-2. Run the demo (the results are saved in "./results/vinet_agg_rec/davis_512/").  
+3. Run the demo (the results are saved in "./results/vinet_agg_rec/davis_512/").  
 ```python
 python demo_vi.py
 ```
 
-3. Optional: Run the video retargeting (Section 4.5)
+4. Optional: Run the video retargeting (Section 4.5)
 ```python
 python demo_retarget.py
 ```
