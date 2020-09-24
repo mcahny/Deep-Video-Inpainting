@@ -11,7 +11,6 @@ This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on 
 <img src="./image/swing4.jpg" width="700" height="350"> 
 <img src="./image/roller4.jpg" width="700" height="350"> 
 
-
 ## Disclaimer
 <del> "This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version)."
 
