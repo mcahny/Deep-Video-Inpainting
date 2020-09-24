@@ -49,22 +49,20 @@ If you find the codes useful in your research, please cite:
 ```bibtex
 @inproceedings{kim2019deep,
   title={Deep Video Inpainting},
-  author={Kim, Dahun and Woo, Sanghyun and Lee, Joon-Young and So Kweon, In},
+  author={Kim, Dahun and Woo, Sanghyun and Lee, Joon-Young and Kweon, In So},
   booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
   pages={5792--5801},
   year={2019},}
 ```
 ```bibtex
-@ARTICLE{kim2019deeppami,
-  author={Kim, Dahun and Woo, Sanghyun and Lee, Joon-Young and So Kweon, In},
+@ARTICLE{kim2019vipami,
+  author={Kim, Dahun and Woo, Sanghyun and Lee, Joon-Young and Kweon, In So},
   journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
   title={Recurrent Temporal Aggregation Framework for Deep Video Inpainting},
-  year={2019},
-  volume={},
-  number={},
-  pages={1-1},
-  month={},}
-
+  year={2020},
+  volume={42},
+  number={5},
+  pages={1038-1052},}
 ```
 
 
