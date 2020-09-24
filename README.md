@@ -1,5 +1,5 @@
 # Deep_Video_Inpainting
-Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019)  
+Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019, TPAMI 2020)  
 [Dahun Kim*](https://mcahny.github.io/), [Sanghyun Woo*](https://sites.google.com/view/sanghyunwoo/), [Joon-Young Lee](https://joonyoung-cv.github.io/), and [In So Kweon](https://rcv.kaist.ac.kr). (*: equal contribution)  
 [[Paper](https://arxiv.org/abs/1905.01639)] [[Project page](https://sites.google.com/view/deepvinet/)] [[Video results](https://youtu.be/RtThGNTvkjY)]  
 
