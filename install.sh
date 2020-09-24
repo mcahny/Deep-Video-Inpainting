@@ -1,3 +1,5 @@
+conda install pytorch=1.4 torchvision cudatoolkit=10.0 -c pytorch -y
+
 pip install scipy
 pip install opencv-python
 pip install pillow
