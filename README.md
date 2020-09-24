@@ -13,7 +13,8 @@ This is recently tested under Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
 
 ## Disclaimer
 This is tested under 
-<s>Python=3.6, PyTorch=0.4.0</s> Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
+<s>Python=3.6, PyTorch=0.4.0</s>  
+Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
 
 ## Testing
 0. Download the trained weight 'save_agg_rec_512.pth' and place it in "./results/vinet_agg_rec/"  
