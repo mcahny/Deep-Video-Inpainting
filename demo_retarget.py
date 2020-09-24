@@ -2,10 +2,6 @@ import os, os.path
 import cv2
 from PIL import Image
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import pdb
-
 
 # vid_name = 'bmx-trees'
 # mode = 'horizontal' # OR 'vertical'
@@ -64,6 +60,8 @@ for mode in ['horizontal', 'vertical']:
             
             except:
                 pass
+
+print('Retargeting restuls saved at %s.'%(save_root))
 
 
 
