@@ -2,4 +2,6 @@
 *.pyc
 __pycache__/
 results/vinet_agg_rec/davis_512/
+results/vinet_agg_rec/horizontal_0.5/
+results/vinet_agg_rec/vertical_0.5/
 save_agg_rec_512.pth
