@@ -7,13 +7,13 @@ If you are also interested in **video caption removal**, please check [[Paper](h
 
 ## Update
 This is recently tested under Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
-<del> This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version).
 
 <img src="./image/swing4.jpg" width="700" height="350"> 
 <img src="./image/roller4.jpg" width="700" height="350"> 
 
 ## Disclaimer
- "This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version)."
+This is tested under 
+<s>Python=3.6, PyTorch=0.4.0</s> Python=3.7, Pytorch=1.4, Cudatoolkit=10.0.
 
 ## Testing
 0. Download the trained weight 'save_agg_rec_512.pth' and place it in "./results/vinet_agg_rec/"  
