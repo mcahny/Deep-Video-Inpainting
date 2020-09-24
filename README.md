@@ -5,12 +5,15 @@ Official pytorch implementation for "Deep Video Inpainting" (CVPR 2019)
 
 If you are also interested in **video caption removal**, please check [[Paper](https://arxiv.org/abs/1905.02949)] [[Project page](https://sites.google.com/view/bvdnet/)] 
 
+## Update
+This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version).
+
 <img src="./image/swing4.jpg" width="700" height="350"> 
 <img src="./image/roller4.jpg" width="700" height="350"> 
 
 
 ## Disclaimer
-This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version).
+<del> "This is tested under Python 3.6, PyTorch 0.4.0 (dependencies can be compiled on this version)."
 
 ## Testing
 0. Download the trained weight 'save_agg_rec_512.pth' and place it in "./results/vinet_agg_rec/"  
