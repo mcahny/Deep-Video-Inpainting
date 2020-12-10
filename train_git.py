@@ -32,7 +32,8 @@ args = Object()
 args.rgb_max = 1.0
 args.fp16 = False
 FlowNet = networks.FlowNet2(args, requires_grad=False)
-model_filename = os.path.join("pretrained_models", "FlowNet2_checkpoint.pth.tar")
+model_filename = os.path.join(
+    "pretrained_models", "FlowNet2_checkpoint.pth.tar")
 checkpoint = torch.load(model_filename)
 FlowNet.load_state_dict(checkpoint['state_dict'])
 FlowNet = FlowNet.cuda()
@@ -44,13 +45,14 @@ def norm(t):
     return torch.sum(t*t, dim=1, keepdim=True) 
 
 def repackage_hidden(h):
-    """Wraps hidden states in new Variables, to detach them from their history."""
+    """Wraps hidden states in new Variables, detach them from their history."""
     if isinstance(h, torch.Tensor):
         return h.detach()
     else:
         return tuple(repackage_hidden(v) for v in h)
 
-def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, optimizer, opt):
+def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, 
+                     optimizer, opt):
 
     opt.w_ST, opt.w_LT, opt.w_Flow = 1.0, 1.0, 10.0
     model.train()
@@ -81,8 +83,10 @@ def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, op
         ### forward
         prev_mask = frame_m[0][:,:,midx,:,:]
         prev_ones = to_var(torch.ones(prev_mask.size()))
-        prev_feed = torch.cat([frame_mi[0][:,:,midx,:,:],prev_ones, prev_ones*prev_mask], dim=1)
-        frame_o1, _, lstm_state, _ ,occs = model(frame_mi[0], frame_m[0], lstm_state, prev_feed)
+        prev_feed = torch.cat([frame_mi[0][:,:,midx,:,:], prev_ones, 
+                               prev_ones*prev_mask], dim=1)
+        frame_o1, _, lstm_state, _ ,occs = model(
+            frame_mi[0], frame_m[0], lstm_state, prev_feed)
         # Turned out it still works w.o.LSTM. May work with lstm_state = None 
         lstm_state = None if opt.no_lstm else repackage_hidden(lstm_state)
         frame_o1 = frame_o1.squeeze(2)
@@ -106,7 +110,8 @@ def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, op
 
             prev_mask = to_var(torch.zeros(frame_m2[:,:,midx,:,:].size()))
             prev_ones = to_var(torch.ones(prev_mask.size()))
-            prev_feed = torch.cat([frame_o1,prev_ones, prev_ones*prev_mask], dim=1)
+            prev_feed = torch.cat(
+                [frame_o1,prev_ones, prev_ones*prev_mask], dim=1)
             frame_o2, _, lstm_state, _, occs, flow6_256 = model(
                 frame_mi2, frame_m2, lstm_state, prev_feed, None, 1)
             if opt.loss_on_raw:
@@ -160,10 +165,13 @@ def train_lstm_epoch(epoch, data_loader, model, criterion_L1, criterion_ssim, op
                 flow_i21 = FlowNet(frame_i2, frame_i1)
                 warp_i1 = flow_warping(frame_i1, flow_i21)
                 warp_o1 = flow_warping(frame_o1, flow_i21)
-                noc_mask2 = torch.exp( -50. * torch.sum(frame_i2 - warp_i1, dim=1).pow(2) ).unsqueeze(1)
-                LT_loss += criterion_L1(frame_o2 * noc_mask2, warp_i1 * noc_mask2)
+                noc_mask2 = torch.exp(-50. * torch.sum(
+                    frame_i2 - warp_i1, dim=1).pow(2) ).unsqueeze(1)
+                LT_loss += criterion_L1(
+                    frame_o2 * noc_mask2, warp_i1 * noc_mask2)
 
-        overall_loss = RECON_loss + GRAD_loss + HOLE_loss + opt.w_ST*ST_loss + opt.w_LT*LT_loss + opt.w_FLOW*flow_loss
+        overall_loss = (RECON_loss + GRAD_loss + HOLE_loss + opt.w_ST * ST_loss 
+                        + opt.w_LT * LT_loss + opt.w_FLOW * flow_loss)
 
         overall_loss.backward()
         optimizer.step()

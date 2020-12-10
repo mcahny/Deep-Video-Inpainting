@@ -1,8 +1,8 @@
 import torch
 from torch import nn
 import torch.nn.functional as f
-
 ### modified from https://github.com/Atcold/pytorch-CortexNet/blob/master/model/ConvLSTMCell.py
+
 
 class ConvLSTM(nn.Module):
     
@@ -13,9 +13,12 @@ class ConvLSTM(nn.Module):
         self.hidden_size = hidden_size
         pad = kernel_size // 2
         if type == '3d':
-            self.Gates = nn.Conv3d(input_size + hidden_size, 4 * hidden_size, (1,kernel_size,kernel_size), padding=(0,pad,pad))
+            self.Gates = nn.Conv3d(input_size + hidden_size, 4 * hidden_size, 
+                                   (1, kernel_size, kernel_size), 
+                                   padding=(0, pad, pad))
         else:
-            self.Gates = nn.Conv2d(input_size + hidden_size, 4 * hidden_size, kernel_size, padding=pad)
+            self.Gates = nn.Conv2d(input_size + hidden_size, 4 * hidden_size, 
+                                   kernel_size, padding=pad)
 
 
     def forward(self, input_, prev_state=None):

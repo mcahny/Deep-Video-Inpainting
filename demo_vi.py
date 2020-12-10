@@ -13,14 +13,16 @@ import time
 import subprocess as sp
 import pickle
 
+
 class Object():
     pass
 opt = Object()
 opt.crop_size = 512
 opt.double_size = True if opt.crop_size == 512 else False
-########## DAVIS
+# DAVIS dataloader
 DAVIS_ROOT = './DAVIS_demo'
-DTset = DAVIS(DAVIS_ROOT, imset='2016/demo_davis.txt', size=(opt.crop_size, opt.crop_size))
+DTset = DAVIS(DAVIS_ROOT, imset='2016/demo_davis.txt', 
+              size=(opt.crop_size, opt.crop_size))
 DTloader = data.DataLoader(DTset, batch_size=1, shuffle=False, num_workers=1)
 
 opt.search_range = 4 # fixed as 4: search range for flow subnetworks
@@ -39,7 +41,6 @@ opt.save_image = True
 opt.save_video = False
 if opt.save_video:
     import pims
-
 
 
 def createVideoClip(clip, folder, name, size=[512,512]):
@@ -76,21 +77,22 @@ def to_var(x, volatile=False):
     return Variable(x, volatile=volatile)
 
 model, _ = generate_model(opt)
-print('Number of model parameters: {}'.format( sum([p.data.nelement() for p in model.parameters()])))
+print('Number of model parameters: {}'.format(
+      sum([p.data.nelement() for p in model.parameters()])))
 
 model.eval()
 ts = opt.t_stride
 folder_name = 'davis_%d'%(int(opt.crop_size))
-pre = 30
+pre_run = 30
 
 with torch.no_grad():
     for seq, (inputs, masks, info) in enumerate(DTloader):
 
-        idx = torch.LongTensor([i for i in range(pre-1,-1,-1)])
-        pre_inputs = inputs[:,:,:pre].index_select(2,idx)
-        pre_masks = masks[:,:,:pre].index_select(2,idx)
-        inputs = torch.cat((pre_inputs, inputs),2)
-        masks = torch.cat((pre_masks, masks),2)
+        idx = torch.LongTensor([i for i in range(pre_run-1, -1, -1)])
+        pre_inputs = inputs[:,:,:pre_run].index_select(2, idx)
+        pre_masks = masks[:,:,:pre_run].index_select(2, idx)
+        inputs = torch.cat((pre_inputs, inputs), 2)
+        masks = torch.cat((pre_masks, masks), 2)
 
         bs = inputs.size(0)
         num_frames = inputs.size(2)
@@ -118,7 +120,7 @@ with torch.no_grad():
             masked_inputs_ = []
             masks_ = []        
 
-            if t < 2*ts:
+            if t < 2 * ts:
                 masked_inputs_.append(masked_inputs[0,:,abs(t-2*ts)])
                 masked_inputs_.append(masked_inputs[0,:,abs(t-1*ts)])
                 masked_inputs_.append(masked_inputs[0,:,t])
@@ -129,12 +131,14 @@ with torch.no_grad():
                 masks_.append(masks[0,:,t])
                 masks_.append(masks[0,:,t+1*ts])
                 masks_.append(masks[0,:,t+2*ts])
-            elif t > num_frames-2*ts-1:
+            elif t > num_frames - 2 * ts - 1:
                 masked_inputs_.append(masked_inputs[0,:,t-2*ts])
                 masked_inputs_.append(masked_inputs[0,:,t-1*ts])
                 masked_inputs_.append(masked_inputs[0,:,t])
-                masked_inputs_.append(masked_inputs[0,:,-1 -abs(num_frames-1-t - 1*ts)])
-                masked_inputs_.append(masked_inputs[0,:,-1 -abs(num_frames-1-t - 2*ts)])
+                masked_inputs_.append(
+                    masked_inputs[0,:,-1 -abs(num_frames-1-t - 1*ts)])
+                masked_inputs_.append(
+                    masked_inputs[0,:,-1 -abs(num_frames-1-t - 2*ts)])
                 masks_.append(masks[0,:,t-2*ts])
                 masks_.append(masks[0,:,t-1*ts])
                 masks_.append(masks[0,:,t])
@@ -152,17 +156,24 @@ with torch.no_grad():
                 masks_.append(masks[0,:,t+1*ts])
                 masks_.append(masks[0,:,t+2*ts])            
 
-            masked_inputs_ = torch.stack(masked_inputs_).permute(1,0,2,3).unsqueeze(0)
+            masked_inputs_ = torch.stack(masked_inputs_).permute(
+                1,0,2,3).unsqueeze(0)
             masks_ = torch.stack(masks_).permute(1,0,2,3).unsqueeze(0)
 
             start = time.time()
             if not opt.double_size:
-                prev_mask_ = to_var(torch.zeros(masks_[:,:,2].size())) # rec given when 256
+                prev_mask_ = to_var(torch.zeros(masks_[:,:,2].size())) 
+                # rec given when 256
             prev_mask = masks_[:,:,2] if t==0 else prev_mask_
             prev_ones = to_var(torch.ones(prev_mask.size()))
-            prev_feed = torch.cat([masked_inputs_[:,:,2,:,:],prev_ones, prev_ones*prev_mask], dim=1) if t==0 else torch.cat([outputs.detach().squeeze(2), prev_ones, prev_ones*prev_mask], dim=1)
-
-            outputs, _, _, _, _ = model(masked_inputs_, masks_, lstm_state, prev_feed, t)
+            if t == 0:
+                prev_feed = torch.cat([masked_inputs_[:,:,2,:,:], prev_ones, 
+                                       prev_ones*prev_mask], dim=1)
+            else:
+                prev_feed = torch.cat([outputs.detach().squeeze(2), prev_ones, 
+                                       prev_ones*prev_mask], dim=1)
+            outputs, _, _, _, _ = model(
+                masked_inputs_, masks_, lstm_state, prev_feed, t)
             if opt.double_size:
                 prev_mask_ = masks_[:,:,2]*0.5 # rec given whtn 512
 
@@ -172,11 +183,13 @@ with torch.no_grad():
                 lstm_state = repackage_hidden(lstm_state)
 
             total_time += end
-            if t>pre:
-                print('{}th frame of {} is being processed'.format(t-pre, seq_name))
+            if t > pre_run:
+                print('{}th frame of {} is being processed'.format(
+                    t - pre_run, seq_name))
                 out_frame = to_img(outputs)  
                 if opt.save_image:            
-                    cv2.imwrite(os.path.join(save_path,'%05d.png'%(t-pre)), out_frame)
+                    cv2.imwrite(os.path.join(
+                        save_path,'%05d.png'%(t - pre_run)), out_frame)
                 out_frames.append(out_frame[:,:,::-1])
 
         if opt.save_video:
@@ -185,6 +198,6 @@ with torch.no_grad():
             if not os.path.exists(video_path):
                 os.makedirs(video_path)
 
-            createVideoClip(final_clip, video_path, '%s.mp4'%(seq_name), [opt.crop_size, opt.crop_size])
+            createVideoClip(final_clip, video_path, '%s.mp4'%(
+                seq_name), [opt.crop_size, opt.crop_size])
             print('Predicted video clip {} saving'.format(folder_name))   
-

@@ -25,7 +25,8 @@ for mode in ['horizontal', 'vertical']:
         for img_name in bg_frames:
             iid = img_name.split('.')[0]
             bg = cv2.imread(os.path.join(bg_dir, iid+'.png'))
-            mask = np.array(Image.open(os.path.join(mask_dir, iid+'.png')).convert('P'),np.uint8)
+            mask = np.array(Image.open(
+                os.path.join(mask_dir, iid+'.png')).convert('P'),np.uint8)
             mask = cv2.resize(mask, (H, W), cv2.INTER_NEAREST)
 
             [hs, ws] = np.where(mask>0)
@@ -36,7 +37,8 @@ for mode in ['horizontal', 'vertical']:
                 elif mode == 'vertical':
                     bg_half = cv2.resize(bg, (H,int(W*ratio)))
 
-                fg = cv2.resize(cv2.imread(os.path.join(fg_dir, iid+'.jpg')),(H,W), cv2.INTER_CUBIC)
+                fg = cv2.resize(cv2.imread(os.path.join(
+                    fg_dir, iid+'.jpg')),(H,W), cv2.INTER_CUBIC)
                 fg[:,:,0] = fg[:,:,0]*(mask>0)
                 fg[:,:,1] = fg[:,:,1]*(mask>0)
                 fg[:,:,2] = fg[:,:,2]*(mask>0)
@@ -53,7 +55,8 @@ for mode in ['horizontal', 'vertical']:
                 assert(fg_cut.shape == bg_half.shape)
 
                 fg_cut[fg_cut==0] = bg_half[fg_cut==0]
-                save_dir = os.path.join(save_root, mode+'_'+str(ratio), vid_name)
+                save_dir = os.path.join(
+                    save_root, mode+'_'+str(ratio), vid_name)
                 if not os.path.exists(save_dir):
                     os.makedirs(save_dir)
                 cv2.imwrite(os.path.join(save_dir, iid+'.png'), fg_cut)
@@ -62,7 +65,3 @@ for mode in ['horizontal', 'vertical']:
                 pass
 
 print('Retargeting restuls saved at %s.'%(save_root))
-
-
-
-
